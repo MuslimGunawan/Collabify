@@ -182,21 +182,21 @@ onUnmounted(() => {
 
                 <ul v-else class="divide-y divide-slate-200">
                     <li v-for="doc in documents" :key="doc.id" class="hover:bg-slate-50 transition-colors">
-                        <div class="px-6 py-4 flex items-center justify-between flex-wrap gap-4">
-                            <div class="flex-1 min-w-0">
+                        <div class="px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                            <div class="min-w-0 flex-1 w-full">
                                 <Link
                                     :href="`/documents/${doc.id}`"
                                     class="text-base font-semibold text-indigo-600 hover:text-indigo-800 truncate block"
                                 >
                                     {{ doc.title || 'Untitled Document' }}
                                 </Link>
-                                <div class="mt-1 flex items-center space-x-2 text-xs text-slate-500 flex-wrap">
+                                <div class="mt-1 flex flex-col sm:flex-row sm:items-center gap-x-2 gap-y-1 text-xs text-slate-500">
                                     <span>Dibuat oleh: <strong class="text-slate-700">{{ doc.user?.name || 'Anonim' }}</strong></span>
-                                    <span>•</span>
+                                    <span class="hidden sm:inline text-slate-300">•</span>
                                     <span>Terakhir diubah: <strong class="text-slate-700">{{ formatDate(doc.updated_at) }}</strong></span>
                                 </div>
                             </div>
-                            <div class="flex items-center space-x-2">
+                            <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto shrink-0">
                                 <button
                                     @click="renameDocument(doc)"
                                     class="inline-flex items-center px-3 py-1.5 border border-slate-300 text-xs font-semibold rounded-md text-slate-700 bg-white hover:bg-slate-50 hover:text-indigo-600 transition-colors shadow-sm"

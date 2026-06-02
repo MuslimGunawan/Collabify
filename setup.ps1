@@ -46,11 +46,11 @@ try {
 }
 "
 
-# 6. Run Database Migrations
-Write-Host "[6/6] Running database migrations..." -ForegroundColor Cyan
-php artisan migrate --force --no-interaction
+# 6. Run Database Migrations and Seed
+Write-Host "[6/6] Running database migrations and seeding..." -ForegroundColor Cyan
+php artisan migrate:fresh --seed --force --no-interaction
 if ($LASTEXITCODE -ne 0) {
-    Write-Host "Warning: Migrations failed. Please check your MySQL connection and try running 'php artisan migrate' manually." -ForegroundColor Yellow
+    Write-Host "Warning: Database migrations and seeding failed. Please check your MySQL connection." -ForegroundColor Yellow
 }
 
 # 7. Compile Assets
