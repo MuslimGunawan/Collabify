@@ -43,7 +43,12 @@ Kami telah menyediakan skrip PowerShell untuk mempermudah proses instalasi dan p
    ```powershell
    ./setup.ps1
    ```
-   *Skrip ini akan secara otomatis membuat berkas `.env`, menginstal dependensi Composer & NPM, membuat database `collabify` jika belum ada di MySQL Anda, melakukan `key:generate`, menjalankan migrasi tabel, dan mengompilasi aset.*
+   *Skrip ini akan secara otomatis membuat berkas `.env`, menginstal dependensi Composer & NPM, membuat database `collabify` jika belum ada di MySQL Anda, melakukan `key:generate`, menjalankan migrasi tabel dengan seeding, dan mengompilasi aset.*
+
+### Akun Pengguna Utama (Seeded)
+Setelah instalasi selesai, database Anda secara otomatis terisi akun utama default yang dapat langsung digunakan untuk masuk:
+- **Email:** `utama@collabify.local`
+- **Password:** `password123`
 
 ---
 
