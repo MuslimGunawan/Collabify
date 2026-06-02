@@ -6,6 +6,7 @@ interface User {
     id: number;
     name: string;
     email: string;
+    avatar_url: string;
 }
 
 interface Document {
@@ -92,9 +93,20 @@ onUnmounted(() => {
                         <span class="text-xl font-extrabold text-indigo-600">Collabify</span>
                     </div>
                     <div class="flex items-center space-x-4">
-                        <span class="text-sm text-slate-700">
-                            Halo, <strong class="font-semibold text-slate-900">{{ auth.user.name }}</strong>
-                        </span>
+                        <Link
+                            href="/profile"
+                            class="flex items-center space-x-2 hover:opacity-80 transition-opacity"
+                            title="Edit Profil Saya"
+                        >
+                            <img
+                                :src="auth.user.avatar_url"
+                                alt="Avatar"
+                                class="h-8 w-8 rounded-full border border-slate-200 object-cover bg-white"
+                            />
+                            <span class="text-sm text-slate-700">
+                                Halo, <strong class="font-semibold text-slate-900">{{ auth.user.name }}</strong>
+                            </span>
+                        </Link>
                         <button
                             @click="logout"
                             class="inline-flex items-center px-3 py-1.5 border border-slate-300 text-xs font-medium rounded-md text-slate-700 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

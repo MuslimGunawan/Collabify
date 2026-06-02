@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="50" fill="#E2E8F0"/>
+  <!-- Face base -->
+  <circle cx="50" cy="55" r="32" fill="#FFFFFF"/>
+  <!-- Stripes -->
+  <path d="M 32 28 L 44 28 L 42 78 L 34 78 Z" fill="#1E293B"/>
+  <path d="M 68 28 L 56 28 L 58 78 L 66 78 Z" fill="#1E293B"/>
+  <!-- Ears -->
+  <circle cx="28" cy="34" r="10" fill="#1E293B"/>
+  <circle cx="72" cy="34" r="10" fill="#1E293B"/>
+  <circle cx="28" cy="34" r="6" fill="#FFFFFF"/>
+  <circle cx="72" cy="34" r="6" fill="#FFFFFF"/>
+  <!-- Eyes -->
+  <circle cx="38" cy="50" r="3" fill="#FFFFFF"/>
+  <circle cx="62" cy="50" r="3" fill="#FFFFFF"/>
+  <!-- Nose -->
+  <polygon points="45,72 55,72 50,78" fill="#1E293B"/>
+</svg>

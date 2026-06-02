@@ -6,6 +6,7 @@ interface User {
     id: number;
     name: string;
     email: string;
+    avatar_url: string;
 }
 
 interface DocumentData {
@@ -329,14 +330,25 @@ const visibleCursors = computed(() => {
                         <div
                             v-for="user in activeUsers"
                             :key="user.id"
-                            class="inline-block h-8 w-8 rounded-full ring-2 text-xs font-bold text-white flex items-center justify-center select-none"
+                            class="inline-block h-8 w-8 rounded-full ring-2 text-xs font-bold text-white flex items-center justify-center select-none overflow-hidden"
                             :style="{
-                                backgroundColor: getUserColor(user.id),
                                 ringColor: user.id === auth.user.id ? '#4F46E5' : '#FFFFFF'
                             }"
                             :title="user.name + (user.id === auth.user.id ? ' (Anda)' : '')"
                         >
-                            {{ user.name.substring(0, 2).toUpperCase() }}
+                            <img
+                                v-if="user.avatar_url"
+                                :src="user.avatar_url"
+                                :alt="user.name"
+                                class="h-full w-full object-cover bg-white"
+                            />
+                            <span
+                                v-else
+                                class="h-full w-full flex items-center justify-center"
+                                :style="{ backgroundColor: getUserColor(user.id) }"
+                            >
+                                {{ user.name.substring(0, 2).toUpperCase() }}
+                            </span>
                         </div>
                     </div>
                 </div>
