@@ -1,0 +1,73 @@
+# 🔗 Collabify - Realtime Collaborative Editor (Google Docs Clone)
+
+Collabify adalah aplikasi web editor dokumen kolaboratif realtime (seperti Google Docs) yang dibangun menggunakan **Laravel 13**, **Inertia.js v3**, **Vue 3**, **Tailwind CSS v4**, **MySQL**, dan **Laravel Reverb (WebSockets)**. 
+
+Aplikasi ini dirancang khusus agar dapat langsung terhubung dan digunakan berkolaborasi oleh banyak perangkat (HP, laptop, tablet) yang tersambung pada **jaringan WiFi yang sama** secara dinamis tanpa perlu konfigurasi IP manual.
+
+---
+
+## ✨ Fitur Utama
+
+- **✍️ Kolaborasi Teks Realtime:** Sinkronisasi teks instan antar perangkat dengan latensi sangat rendah menggunakan channel WebSockets.
+- **📍 Pelacakan Posisi Kursor:** Kursor dari pengguna lain akan tampil berupa warna dan bendera nama yang bergerak secara dinamis mengikuti posisi mengetik mereka. Isu perpindahan caret yang meloncat (cursor jumping) telah diselesaikan.
+- **⚡ Autosave Latar Belakang (Debounced):** Aplikasi menyimpan pekerjaan Anda ke database MySQL secara otomatis dalam 1 detik setelah Anda berhenti mengetik (debounced) dengan status reaktif (`⚡ Menyimpan...` dan `✓ Tersimpan ke DB`).
+- **🗂️ Sinkronisasi Dashboard Realtime:** Jika salah satu pengguna mengubah nama (rename) atau menghapus (delete) dokumen, perubahan tersebut akan langsung tercermin secara instan di layar dashboard pengguna lain tanpa perlu memuat ulang halaman.
+- **🔗 Deteksi Otomatis IP Jaringan (WiFi):** Dashboard mendeteksi IP lokal server secara otomatis dan menampilkan tautan koneksi (misalnya `http://192.168.1.15:8000`) untuk dibuka di perangkat lain.
+- **🚀 Masuk Cepat Tamu (Quick Guest Join):** Pengguna dapat berkolaborasi secara instan hanya dengan memasukkan nama tamu (tanpa email & password rumit) untuk memudahkan pengujian.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Backend:** Laravel 13 (PHP 8.5)
+- **WebSockets Server:** Laravel Reverb v1
+- **Frontend SPA Protocol:** Inertia.js v3 (dengan fitur baru `useHttp` standalone request)
+- **Client Framework:** Vue 3 & TypeScript
+- **Styling:** Tailwind CSS v4
+- **Database:** MySQL
+
+---
+
+## 🚀 Panduan Setup Cepat (Otomatis)
+
+Kami telah menyediakan skrip PowerShell untuk mempermudah proses instalasi dan persiapan lingkungan kerja di Windows.
+
+### Prasyarat
+1. Pastikan Anda memiliki **PHP 8.2+** dan **Composer** terinstal di command line.
+2. Pastikan Anda memiliki **Node.js** dan **npm** terinstal.
+3. Pastikan server database **MySQL** Anda aktif (misalnya melalui Laragon, XAMPP, dsb) pada port default `3306` (username: `root`, tanpa password).
+
+### Langkah Instalasi
+1. Buka PowerShell di folder project root.
+2. Jalankan skrip setup berikut:
+   ```powershell
+   ./setup.ps1
+   ```
+   *Skrip ini akan secara otomatis membuat berkas `.env`, menginstal dependensi Composer & NPM, membuat database `collabify` jika belum ada di MySQL Anda, melakukan `key:generate`, menjalankan migrasi tabel, dan mengompilasi aset.*
+
+---
+
+## 💻 Cara Menjalankan Server
+
+Setelah setup selesai, Anda dapat menyalakan ketiga server yang dibutuhkan (Laravel Web, Reverb WebSocket, dan Vite Dev) dalam bentuk tab Windows Terminal sekaligus menggunakan skrip otomatis:
+
+```powershell
+./start-servers.ps1
+```
+
+Skrip di atas akan membuka Windows Terminal dengan tab-tab terpisah untuk:
+1. `php artisan serve --host=0.0.0.0 --port=8000` (Akses web)
+2. `php artisan reverb:start --host=0.0.0.0 --port=8080` (WebSocket server)
+3. `npm run dev` (Vite assets compilation)
+
+---
+
+## 🌐 Cara Menguji Kolaborasi Multi-Device (WiFi Sama)
+
+1. Jalankan aplikasi menggunakan `./start-servers.ps1`.
+2. Buka browser di komputer utama Anda ke `http://localhost:8000`.
+3. Anda akan melihat kotak informasi di dashboard yang menampilkan IP lokal server Anda, misalnya: **`http://192.168.1.15:8000`**.
+4. Ambil HP, tablet, atau laptop kedua Anda, sambungkan ke **WiFi yang sama** dengan komputer utama, lalu buka alamat IP tersebut di browser device kedua.
+5. Masuk sebagai tamu dengan nama yang berbeda (misal: "Tamu A" di PC dan "Tamu B" di HP), lalu buka dokumen yang sama.
+6. Anda sekarang dapat mengetik dan melihat sinkronisasi dokumen serta kursor bergerak secara realtime!
+7. Cobalah kembali ke dashboard, lakukan aksi **Ubah Nama** atau **Hapus** pada salah satu perangkat, dan saksikan daftar dokumen di perangkat lainnya terupdate secara realtime!
