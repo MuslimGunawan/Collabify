@@ -401,7 +401,10 @@ const visibleCursors = computed(() => {
             </div>
             
             <div class="mt-3 text-xs text-slate-400 flex flex-col sm:flex-row justify-between gap-2">
-                <span>© 2026 Collabify oleh <strong class="text-slate-500 font-semibold">Muslim Gunawan</strong>. Kolaborasi realtime menggunakan WiFi yang sama.</span>
+                <div class="flex flex-col gap-0.5">
+                    <span>© 2026 Collabify oleh <strong class="text-slate-500 font-semibold">Muslim Gunawan</strong>. Kolaborasi realtime menggunakan WiFi yang sama.</span>
+                    <span class="text-slate-400/80">Kami menerima inovasi, masukan baru, dan kerja sama pengembangan.</span>
+                </div>
                 <span>Karakter: {{ content.length }}</span>
             </div>
         </main>

@@ -11,6 +11,7 @@ interface User {
 
 const props = defineProps<{
     user: User;
+    isMainClient: boolean;
 }>();
 
 const form = useForm({
@@ -18,10 +19,12 @@ const form = useForm({
     avatar: null as File | null,
     password: '',
     password_confirmation: '',
+    favicon: null as File | null,
 });
 
 // For local preview
 const avatarPreview = ref(props.user.avatar_url);
+const faviconPreview = ref('/storage/custom_favicon.png?t=' + Date.now());
 
 const onFileChange = (e: Event) => {
     const target = e.target as HTMLInputElement;
@@ -29,6 +32,15 @@ const onFileChange = (e: Event) => {
         const file = target.files[0];
         form.avatar = file;
         avatarPreview.value = URL.createObjectURL(file);
+    }
+};
+
+const onFaviconChange = (e: Event) => {
+    const target = e.target as HTMLInputElement;
+    if (target.files && target.files[0]) {
+        const file = target.files[0];
+        form.favicon = file;
+        faviconPreview.value = URL.createObjectURL(file);
     }
 };
 
@@ -89,6 +101,32 @@ const submit = () => {
                             <p class="mt-1.5 text-xs text-slate-400">PNG, JPG, JPEG sampai dengan 2MB. Jika kosong, avatar hewan lucu Google Docs akan otomatis digunakan.</p>
                             <div v-if="form.errors.avatar" class="text-xs text-red-600 mt-1 font-semibold">
                                 {{ form.errors.avatar }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Favicon Upload Section (Only for Main Client) -->
+                    <div v-if="isMainClient" class="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-6 pt-4 border-t border-slate-200">
+                        <div class="flex-shrink-0 relative">
+                            <!-- Favicon Preview -->
+                            <img
+                                :src="faviconPreview"
+                                alt="Favicon Preview"
+                                class="h-12 w-12 rounded border border-slate-300 shadow-sm object-cover bg-white p-1"
+                                @error="(e) => (e.target as HTMLImageElement).src = '/favicon.svg'"
+                            />
+                        </div>
+                        <div class="flex-1">
+                            <label class="block text-sm font-semibold text-slate-700 mb-1">Ikon Tab Browser (Favicon)</label>
+                            <input
+                                @change="onFaviconChange"
+                                type="file"
+                                accept="image/*"
+                                class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 file:text-indigo-700 file:cursor-pointer hover:file:bg-indigo-100"
+                            />
+                            <p class="mt-1.5 text-xs text-slate-400">Pilih gambar icon tab baru. Hanya muncul dan berlaku untuk Server Utama (Host).</p>
+                            <div v-if="form.errors.favicon" class="text-xs text-red-600 mt-1 font-semibold">
+                                {{ form.errors.favicon }}
                             </div>
                         </div>
                     </div>

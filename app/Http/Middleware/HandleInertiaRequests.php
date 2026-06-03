@@ -60,6 +60,9 @@ class HandleInertiaRequests extends Middleware
                 'user' => $user,
             ],
             'localIp' => $this->getLocalIp(),
+            'isMainClient' => in_array($request->ip(), ['127.0.0.1', '::1'])
+                || str_starts_with($request->header('host'), 'localhost')
+                || str_starts_with($request->header('host'), '127.0.0.1'),
         ];
     }
 

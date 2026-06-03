@@ -227,8 +227,9 @@ const submitGuest = () => {
 
             </div>
             <!-- Footer Copyright -->
-            <footer class="mt-8 text-center text-xs text-slate-400">
+            <footer class="mt-8 text-center text-xs text-slate-400 space-y-1.5">
                 <p>© 2026 Collabify. Dibuat oleh <strong class="text-slate-500 font-semibold">Muslim Gunawan</strong>. All Rights Reserved.</p>
+                <p class="text-slate-400/80">Kami menerima inovasi, masukan baru, dan kerja sama pengembangan.</p>
             </footer>
         </div>
     </div>

@@ -93,3 +93,51 @@ test('expired guest users are deleted during request cycle', function () {
     expect(User::where('id', $expiredGuest->id)->exists())->toBeFalse();
     expect(User::where('id', $activeGuest->id)->exists())->toBeTrue();
 });
+
+test('isMainClient prop is true for local requests and false for external requests', function () {
+    $user = User::factory()->create();
+
+    // Local request
+    $response = $this->actingAs($user)->get(route('home'));
+    $response->assertInertia(fn ($page) => $page->where('isMainClient', true));
+
+    // External request
+    $responseExternal = $this->actingAs($user)
+        ->withServerVariables([
+            'REMOTE_ADDR' => '192.168.1.50',
+        ])
+        ->get('http://192.168.1.100:8000');
+    $responseExternal->assertInertia(fn ($page) => $page->where('isMainClient', false));
+});
+
+test('main client can upload custom favicon', function () {
+    Storage::fake('public');
+    $user = User::factory()->create();
+    $file = UploadedFile::fake()->image('favicon.png');
+
+    $response = $this->actingAs($user)->post(route('profile.update'), [
+        'name' => 'Test User',
+        'favicon' => $file,
+    ]);
+
+    $response->assertRedirect(route('home'));
+    Storage::disk('public')->assertExists('custom_favicon.png');
+});
+
+test('external client cannot upload custom favicon', function () {
+    Storage::fake('public');
+    $user = User::factory()->create();
+    $file = UploadedFile::fake()->image('favicon.png');
+
+    $response = $this->actingAs($user)
+        ->withServerVariables([
+            'REMOTE_ADDR' => '192.168.1.50',
+        ])
+        ->post('http://192.168.1.100:8000/profile', [
+            'name' => 'Test User',
+            'favicon' => $file,
+        ]);
+
+    $response->assertRedirect('http://192.168.1.100:8000');
+    Storage::disk('public')->assertMissing('custom_favicon.png');
+});

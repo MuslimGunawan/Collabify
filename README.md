@@ -100,3 +100,11 @@ Ini adalah HP, tablet, atau laptop lain yang ingin ikut mengedit dokumen dalam j
 5. Masuk sebagai tamu dengan nama berbeda (misal: "Lynx" di Main Client dan "Hp1 (Guest)" di HP Client Biasa), lalu buka dokumen yang sama.
 6. Anda sekarang dapat mengetik dan melihat perubahan teks, posisi kursor, serta avatar pengguna lain tersinkronisasi secara realtime!
 7. Cobalah kembali ke dashboard, lakukan aksi **Ubah Nama** atau **Hapus** pada salah satu perangkat, dan saksikan daftar dokumen di perangkat lainnya terupdate secara realtime!
+
+---
+
+## 💡 Inovasi, Masukan, & Kerja Sama
+
+Kami sangat terbuka terhadap segala bentuk inovasi, masukan baru, ide fitur, maupun kerja sama (kolaborasi pengembangan) untuk membuat Collabify menjadi lebih baik. 
+
+Jika Anda memiliki saran, ingin berkontribusi, atau ingin mendiskusikan peluang kerja sama lainnya, silakan hubungi **Muslim Gunawan** melalui halaman repositori GitHub ini atau melalui kontak yang tersedia.

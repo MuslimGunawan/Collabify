@@ -45,6 +45,15 @@ class ProfileController extends Controller
             $data['avatar'] = $path;
         }
 
+        // Upload custom favicon (only allowed for Main Client)
+        $isMainClient = in_array($request->ip(), ['127.0.0.1', '::1'])
+            || str_starts_with($request->header('host'), 'localhost')
+            || str_starts_with($request->header('host'), '127.0.0.1');
+
+        if ($isMainClient && $request->hasFile('favicon')) {
+            Storage::disk('public')->putFileAs('', $request->file('favicon'), 'custom_favicon.png');
+        }
+
         // Update password if filled
         if (! empty($validated['password'])) {
             $data['password'] = Hash::make($validated['password']);

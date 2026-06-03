@@ -4,9 +4,14 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="icon" href="/favicon.ico" sizes="any">
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+        @php
+            $faviconUrl = asset('favicon.svg');
+            if (file_exists(public_path('storage/custom_favicon.png'))) {
+                $faviconUrl = asset('storage/custom_favicon.png') . '?v=' . filemtime(public_path('storage/custom_favicon.png'));
+            }
+        @endphp
+        <link rel="icon" href="{{ $faviconUrl }}">
+        <link rel="apple-touch-icon" href="{{ $faviconUrl }}">
 
         @fonts
 

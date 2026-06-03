@@ -26,6 +26,7 @@ class UpdateProfileRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'avatar' => ['nullable', 'image', 'max:2048'],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+            'favicon' => ['nullable', 'image', 'max:1024'],
         ];
     }
 }
