@@ -400,8 +400,8 @@ const visibleCursors = computed(() => {
 
             </div>
             
-            <div class="mt-3 text-xs text-slate-400 flex justify-between">
-                <span>Gunakan WiFi yang sama untuk melihat perubahan kursor dan teks secara realtime.</span>
+            <div class="mt-3 text-xs text-slate-400 flex flex-col sm:flex-row justify-between gap-2">
+                <span>© 2026 Collabify oleh <strong class="text-slate-500 font-semibold">Muslim Gunawan</strong>. Kolaborasi realtime menggunakan WiFi yang sama.</span>
                 <span>Karakter: {{ content.length }}</span>
             </div>
         </main>

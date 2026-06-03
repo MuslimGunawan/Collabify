@@ -220,6 +220,10 @@ onUnmounted(() => {
                     </li>
                 </ul>
             </div>
+            <!-- Footer Copyright -->
+            <footer class="mt-12 py-6 border-t border-slate-200 text-center text-xs text-slate-400">
+                <p>© 2026 Collabify. Dibuat oleh <strong class="text-slate-500 font-semibold">Muslim Gunawan</strong>. Hak Cipta Dilindungi.</p>
+            </footer>
         </main>
     </div>
 </template>
