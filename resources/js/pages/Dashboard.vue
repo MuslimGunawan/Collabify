@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, Link, router } from '@inertiajs/vue3';
+import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import { computed, onMounted, onUnmounted } from 'vue';
 
 interface User {
@@ -26,6 +26,9 @@ const props = defineProps<{
         user: User;
     };
 }>();
+
+const page = usePage();
+const logoUrl = computed(() => page.props.logoUrl as string | null);
 
 const logout = () => {
     router.post('/logout');
@@ -90,7 +93,13 @@ onUnmounted(() => {
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between h-16">
                     <div class="flex items-center">
-                        <span class="text-xl font-extrabold text-indigo-600">Collabify</span>
+                        <img
+                            v-if="logoUrl"
+                            :src="logoUrl"
+                            alt="Logo"
+                            class="h-8 w-auto max-h-8 object-contain"
+                        />
+                        <span v-else class="text-xl font-extrabold text-indigo-600">Collabify</span>
                     </div>
                     <div class="flex items-center space-x-4">
                         <Link

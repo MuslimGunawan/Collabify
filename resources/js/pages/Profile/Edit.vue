@@ -12,6 +12,7 @@ interface User {
 const props = defineProps<{
     user: User;
     isMainClient: boolean;
+    logoUrl?: string | null;
 }>();
 
 const form = useForm({
@@ -20,11 +21,13 @@ const form = useForm({
     password: '',
     password_confirmation: '',
     favicon: null as File | null,
+    logo: null as File | null,
 });
 
 // For local preview
 const avatarPreview = ref(props.user.avatar_url);
 const faviconPreview = ref('/storage/custom_favicon.png?t=' + Date.now());
+const logoPreview = ref(props.logoUrl || '');
 
 const onFileChange = (e: Event) => {
     const target = e.target as HTMLInputElement;
@@ -41,6 +44,15 @@ const onFaviconChange = (e: Event) => {
         const file = target.files[0];
         form.favicon = file;
         faviconPreview.value = URL.createObjectURL(file);
+    }
+};
+
+const onLogoChange = (e: Event) => {
+    const target = e.target as HTMLInputElement;
+    if (target.files && target.files[0]) {
+        const file = target.files[0];
+        form.logo = file;
+        logoPreview.value = URL.createObjectURL(file);
     }
 };
 
@@ -65,7 +77,13 @@ const submit = () => {
                             ← Dashboard
                         </Link>
                         <span class="text-slate-300">|</span>
-                        <span class="text-base font-extrabold text-slate-800">Collabify</span>
+                        <img
+                            v-if="logoUrl"
+                            :src="logoUrl"
+                            alt="Logo"
+                            class="h-6 w-auto max-h-6 object-contain"
+                        />
+                        <span v-else class="text-base font-extrabold text-slate-800">Collabify</span>
                     </div>
                 </div>
             </div>
@@ -127,6 +145,35 @@ const submit = () => {
                             <p class="mt-1.5 text-xs text-slate-400">Pilih gambar icon tab baru. Hanya muncul dan berlaku untuk Server Utama (Host).</p>
                             <div v-if="form.errors.favicon" class="text-xs text-red-600 mt-1 font-semibold">
                                 {{ form.errors.favicon }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Logo Upload Section (Only for Main Client) -->
+                    <div v-if="isMainClient" class="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-6 pt-4 border-t border-slate-200">
+                        <div class="flex-shrink-0 relative">
+                            <!-- Logo Preview -->
+                            <div class="h-12 w-24 rounded border border-slate-300 shadow-sm flex items-center justify-center bg-white p-1 overflow-hidden">
+                                <img
+                                    v-if="logoPreview"
+                                    :src="logoPreview"
+                                    alt="Logo Preview"
+                                    class="max-h-full max-w-full object-contain"
+                                />
+                                <span v-else class="text-xs text-slate-400 font-semibold uppercase">Collabify</span>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <label class="block text-sm font-semibold text-slate-700 mb-1">Logo Aplikasi</label>
+                            <input
+                                @change="onLogoChange"
+                                type="file"
+                                accept="image/*"
+                                class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 file:text-indigo-700 file:cursor-pointer hover:file:bg-indigo-100"
+                            />
+                            <p class="mt-1.5 text-xs text-slate-400">Pilih gambar logo aplikasi baru (disarankan landscape). Hanya muncul dan berlaku untuk Server Utama (Host).</p>
+                            <div v-if="form.errors.logo" class="text-xs text-red-600 mt-1 font-semibold">
+                                {{ form.errors.logo }}
                             </div>
                         </div>
                     </div>

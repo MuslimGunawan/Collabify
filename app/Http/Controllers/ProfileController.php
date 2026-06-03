@@ -54,6 +54,11 @@ class ProfileController extends Controller
             Storage::disk('public')->putFileAs('', $request->file('favicon'), 'custom_favicon.png');
         }
 
+        // Upload custom logo (only allowed for Main Client)
+        if ($isMainClient && $request->hasFile('logo')) {
+            Storage::disk('public')->putFileAs('', $request->file('logo'), 'custom_logo.png');
+        }
+
         // Update password if filled
         if (! empty($validated['password'])) {
             $data['password'] = Hash::make($validated['password']);

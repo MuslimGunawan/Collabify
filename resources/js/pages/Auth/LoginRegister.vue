@@ -1,6 +1,9 @@
 <script setup lang="ts">
-import { useForm, Head } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { useForm, Head, usePage } from '@inertiajs/vue3';
+import { ref, computed } from 'vue';
+
+const page = usePage();
+const logoUrl = computed(() => page.props.logoUrl as string | null);
 
 const activeTab = ref<'login' | 'register'>('login');
 
@@ -40,8 +43,14 @@ const submitGuest = () => {
 <template>
     <Head title="Login / Register - Collabify" />
     <div class="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-        <div class="sm:mx-auto sm:w-full sm:max-w-md text-center">
-            <h1 class="text-4xl font-extrabold text-indigo-600 tracking-tight">Collabify</h1>
+        <div class="sm:mx-auto sm:w-full sm:max-w-md text-center flex flex-col items-center">
+            <img
+                v-if="logoUrl"
+                :src="logoUrl"
+                alt="Logo"
+                class="h-16 w-auto max-h-16 object-contain mb-2"
+            />
+            <h1 v-else class="text-4xl font-extrabold text-indigo-600 tracking-tight">Collabify</h1>
             <p class="mt-2 text-sm text-slate-600">
                 Real-time Collaborative Document Editor
             </p>

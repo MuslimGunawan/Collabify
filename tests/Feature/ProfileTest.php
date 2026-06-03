@@ -141,3 +141,35 @@ test('external client cannot upload custom favicon', function () {
     $response->assertRedirect('http://192.168.1.100:8000');
     Storage::disk('public')->assertMissing('custom_favicon.png');
 });
+
+test('main client can upload custom logo', function () {
+    Storage::fake('public');
+    $user = User::factory()->create();
+    $file = UploadedFile::fake()->image('logo.png');
+
+    $response = $this->actingAs($user)->post(route('profile.update'), [
+        'name' => 'Test User',
+        'logo' => $file,
+    ]);
+
+    $response->assertRedirect(route('home'));
+    Storage::disk('public')->assertExists('custom_logo.png');
+});
+
+test('external client cannot upload custom logo', function () {
+    Storage::fake('public');
+    $user = User::factory()->create();
+    $file = UploadedFile::fake()->image('logo.png');
+
+    $response = $this->actingAs($user)
+        ->withServerVariables([
+            'REMOTE_ADDR' => '192.168.1.50',
+        ])
+        ->post('http://192.168.1.100:8000/profile', [
+            'name' => 'Test User',
+            'logo' => $file,
+        ]);
+
+    $response->assertRedirect('http://192.168.1.100:8000');
+    Storage::disk('public')->assertMissing('custom_logo.png');
+});

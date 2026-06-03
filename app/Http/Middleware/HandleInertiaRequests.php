@@ -63,6 +63,9 @@ class HandleInertiaRequests extends Middleware
             'isMainClient' => in_array($request->ip(), ['127.0.0.1', '::1'])
                 || str_starts_with($request->header('host'), 'localhost')
                 || str_starts_with($request->header('host'), '127.0.0.1'),
+            'logoUrl' => file_exists(public_path('storage/custom_logo.png'))
+                ? asset('storage/custom_logo.png').'?v='.filemtime(public_path('storage/custom_logo.png'))
+                : null,
         ];
     }
 
