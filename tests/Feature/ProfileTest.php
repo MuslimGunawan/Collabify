@@ -173,3 +173,31 @@ test('external client cannot upload custom logo', function () {
     $response->assertRedirect('http://192.168.1.100:8000');
     Storage::disk('public')->assertMissing('custom_logo.png');
 });
+
+test('main client can save logo mode and text settings', function () {
+    $settingsFile = storage_path('app/settings.json');
+    if (file_exists($settingsFile)) {
+        unlink($settingsFile);
+    }
+
+    $user = User::factory()->create();
+
+    $response = $this->actingAs($user)->post(route('profile.update'), [
+        'name' => 'Test User',
+        'logo_mode' => 'text',
+        'logo_text' => 'Custom Collabify Name',
+    ]);
+
+    $response->assertRedirect(route('home'));
+
+    expect(file_exists($settingsFile))->toBeTrue();
+    $settings = json_decode(file_get_contents($settingsFile), true);
+    expect($settings['logo_mode'])->toBe('text');
+    expect($settings['logo_text'])->toBe('Custom Collabify Name');
+
+    $responseHome = $this->get(route('home'));
+    $responseHome->assertInertia(fn ($page) => $page
+        ->where('logoMode', 'text')
+        ->where('logoText', 'Custom Collabify Name')
+    );
+});

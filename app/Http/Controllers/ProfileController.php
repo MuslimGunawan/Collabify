@@ -59,6 +59,28 @@ class ProfileController extends Controller
             Storage::disk('public')->putFileAs('', $request->file('logo'), 'custom_logo.png');
         }
 
+        // Save logo settings (only allowed for Main Client)
+        if ($isMainClient) {
+            $settingsFile = storage_path('app/settings.json');
+            $settingsDir = dirname($settingsFile);
+            if (! is_dir($settingsDir)) {
+                mkdir($settingsDir, 0755, true);
+            }
+
+            $settings = file_exists($settingsFile)
+                ? json_decode(file_get_contents($settingsFile), true)
+                : [];
+
+            if ($request->has('logo_mode')) {
+                $settings['logo_mode'] = $validated['logo_mode'];
+            }
+            if ($request->has('logo_text')) {
+                $settings['logo_text'] = $validated['logo_text'];
+            }
+
+            file_put_contents($settingsFile, json_encode($settings, JSON_PRETTY_PRINT));
+        }
+
         // Update password if filled
         if (! empty($validated['password'])) {
             $data['password'] = Hash::make($validated['password']);

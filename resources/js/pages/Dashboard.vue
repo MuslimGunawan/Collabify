@@ -29,6 +29,8 @@ const props = defineProps<{
 
 const page = usePage();
 const logoUrl = computed(() => page.props.logoUrl as string | null);
+const logoMode = computed(() => page.props.logoMode as string || 'media');
+const logoText = computed(() => page.props.logoText as string || 'Collabify');
 
 const logout = () => {
     router.post('/logout');
@@ -94,12 +96,12 @@ onUnmounted(() => {
                 <div class="flex justify-between h-16">
                     <div class="flex items-center">
                         <img
-                            v-if="logoUrl"
+                            v-if="logoMode === 'media' && logoUrl"
                             :src="logoUrl"
                             alt="Logo"
-                            class="h-8 w-auto max-h-8 object-contain"
+                            class="h-10 sm:h-12 w-auto max-h-12 object-contain"
                         />
-                        <span v-else class="text-xl font-extrabold text-indigo-600">Collabify</span>
+                        <span v-else class="text-xl sm:text-2xl font-black text-slate-800 tracking-tight">{{ logoText }}</span>
                     </div>
                     <div class="flex items-center space-x-4">
                         <Link

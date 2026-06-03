@@ -28,6 +28,8 @@ class UpdateProfileRequest extends FormRequest
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
             'favicon' => ['nullable', 'image', 'max:1024'],
             'logo' => ['nullable', 'image', 'max:2048'],
+            'logo_mode' => ['nullable', 'string', 'in:text,media'],
+            'logo_text' => ['nullable', 'string', 'max:50'],
         ];
     }
 }

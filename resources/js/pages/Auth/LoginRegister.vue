@@ -4,6 +4,8 @@ import { ref, computed } from 'vue';
 
 const page = usePage();
 const logoUrl = computed(() => page.props.logoUrl as string | null);
+const logoMode = computed(() => page.props.logoMode as string || 'media');
+const logoText = computed(() => page.props.logoText as string || 'Collabify');
 
 const activeTab = ref<'login' | 'register'>('login');
 
@@ -45,12 +47,12 @@ const submitGuest = () => {
     <div class="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div class="sm:mx-auto sm:w-full sm:max-w-md text-center flex flex-col items-center">
             <img
-                v-if="logoUrl"
+                v-if="logoMode === 'media' && logoUrl"
                 :src="logoUrl"
                 alt="Logo"
-                class="h-16 w-auto max-h-16 object-contain mb-2"
+                class="h-20 sm:h-24 w-auto max-h-24 object-contain mb-2"
             />
-            <h1 v-else class="text-4xl font-extrabold text-indigo-600 tracking-tight">Collabify</h1>
+            <h1 v-else class="text-4xl sm:text-5xl font-black text-indigo-650 tracking-tight">{{ logoText }}</h1>
             <p class="mt-2 text-sm text-slate-600">
                 Real-time Collaborative Document Editor
             </p>

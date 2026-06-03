@@ -53,6 +53,11 @@ class HandleInertiaRequests extends Middleware
                 ->delete();
         }
 
+        $settingsFile = storage_path('app/settings.json');
+        $settings = file_exists($settingsFile)
+            ? json_decode(file_get_contents($settingsFile), true)
+            : [];
+
         return [
             ...parent::share($request),
             'name' => config('app.name'),
@@ -66,6 +71,8 @@ class HandleInertiaRequests extends Middleware
             'logoUrl' => file_exists(public_path('storage/custom_logo.png'))
                 ? asset('storage/custom_logo.png').'?v='.filemtime(public_path('storage/custom_logo.png'))
                 : null,
+            'logoMode' => $settings['logo_mode'] ?? 'media',
+            'logoText' => $settings['logo_text'] ?? 'Collabify',
         ];
     }
 
